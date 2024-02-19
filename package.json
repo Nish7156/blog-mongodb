@@ -16,7 +16,9 @@
     "multer-storage-cloudinary": "^4.0.0",
     "slugify": "^1.6.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
