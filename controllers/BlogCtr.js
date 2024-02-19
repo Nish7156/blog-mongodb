@@ -5,6 +5,30 @@ const handle = require("./handlersFactory");
 
 exports.allBlogs = handle.getAll(Blog);
 
+exports.getBlog = asyncHandler(async (req, res, next) => {
+  const { slug } = req.params;
+  const blog = await Blog.findOne({ slug });
+
+  if (!blog) {
+    return next(new apiError(`No blog found with slug ${slug}`, 404));
+  }
+
+  res.status(200).json({ success: true, data: blog });
+});
+
+exports.getBlogsByCategory = asyncHandler(async (req, res, next) => {
+  let { category } = req.params;
+  category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+
+  const blogs = await Blog.find({ category });
+
+  if (!blogs || blogs.length === 0) {
+    return next(new apiError(`No blogs found in category '${category}'`, 404));
+  }
+
+  res.status(200).json({ success: true, data: blogs });
+});
+
 exports.createBlog = asyncHandler(async (req, res, next) => {
   try {
     const blog = await Blog.create(req.body);
@@ -12,6 +36,24 @@ exports.createBlog = asyncHandler(async (req, res, next) => {
   } catch (error) {
     return next(new apiError("Failed to create blog post", 500));
   }
+});
+
+exports.getBlogByCategoryAndSlug = asyncHandler(async (req, res, next) => {
+  let { category, slug } = req.params;
+  category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
+
+  const blog = await Blog.findOne({ category, slug });
+
+  if (!blog) {
+    return next(
+      new apiError(
+        `No blog found with category '${category}' and slug '${slug}'`,
+        404
+      )
+    );
+  }
+
+  res.status(200).json({ success: true, data: blog });
 });
 
 exports.deletePost = asyncHandler(async (req, res, next) => {
