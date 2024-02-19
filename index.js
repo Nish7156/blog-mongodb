@@ -27,7 +27,7 @@ app.use("/api/users", userRouters);
 app.use("/api/auth", authRouters);
 app.use("/api/categories", categoryRouters);
 app.use("/api/posts", postRouters);
-// app.use("/api/blogs", blogRouters);
+app.use("/api/blogs", blogRouters);
 app.use("/api/comments", commentRouters);
 
 // 404 error
