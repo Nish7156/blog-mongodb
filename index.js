@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cron = require("node-cron");
 
 const { scrapeAajTak, saveToDatabase } = require("./utils/scraper");
 //
@@ -53,10 +54,28 @@ async function startScrapingAndSaving() {
   }
 }
 
+// Schedule the function to run every 4 hours
+// cron.schedule("0 */4 * * *", () => {
+//   startScrapingAndSaving();
+// });
+
+// cron.schedule("*/5 * * * * *", () => {
+//   startScrapingAndSaving();
+// });
+
+// cron.schedule("0 */6 * * *", () => {
+//   startScrapingAndSaving();
+// });
+
+// cron.schedule("0 6 * * *", () => {
+//   startScrapingAndSaving();
+// }, {
+//   timezone: "Asia/Kolkata" // Mumbai timezone
+// });
+startScrapingAndSaving();
+
 // Listen To Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
-
-startScrapingAndSaving();
