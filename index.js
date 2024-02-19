@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 
+const { scrapeAajTak, saveToDatabase } = require("./utils/scraper");
 //
 const apiError = require("./utils/apiError");
 const { globalErrHandler } = require("./utils/globalErrHandler");
@@ -20,7 +21,7 @@ const authRouters = require("./routes/Auth");
 const categoryRouters = require("./routes/Category");
 const postRouters = require("./routes/Post");
 const commentRouters = require("./routes/Comment");
-const blogRouters =require("./routes/Blog")
+const blogRouters = require("./routes/Blog");
 
 // routes middlware
 app.use("/api/users", userRouters);
@@ -41,8 +42,21 @@ app.all("*", (req, res, next) => {
 // Global Error Handlers Middleware
 app.use(globalErrHandler);
 
+async function startScrapingAndSaving() {
+  try {
+    const scrapedData = await scrapeAajTak();
+    await saveToDatabase(scrapedData);
+    console.log("Scraping and saving completed.");
+  } catch (error) {
+    console.error("Error occurred during scraping:", error);
+    process.exit(1);
+  }
+}
+
 // Listen To Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`server is running on ${PORT}`);
 });
+
+startScrapingAndSaving();
