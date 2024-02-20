@@ -152,7 +152,7 @@ async function saveToDatabase(scrapedData) {
         description,
         image: imageLink,
         // link: data.link,
-        category: data.category,
+        category: data.category.toLowerCase(),
         dateline: data.dateline,
         slug: slug,
       });

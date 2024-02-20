@@ -18,7 +18,6 @@ exports.getBlog = asyncHandler(async (req, res, next) => {
 
 exports.getBlogsByCategory = asyncHandler(async (req, res, next) => {
   let { category } = req.params;
-  category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
 
   const blogs = await Blog.find({ category });
 
@@ -40,7 +39,6 @@ exports.createBlog = asyncHandler(async (req, res, next) => {
 
 exports.getBlogByCategoryAndSlug = asyncHandler(async (req, res, next) => {
   let { category, slug } = req.params;
-  category = category.charAt(0).toUpperCase() + category.slice(1).toLowerCase();
 
   const blog = await Blog.findOne({ category, slug });
 
