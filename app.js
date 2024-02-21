@@ -67,12 +67,16 @@ async function startScrapingAndSaving() {
 //   startScrapingAndSaving();
 // });
 
-// cron.schedule("0 6 * * *", () => {
-//   startScrapingAndSaving();
-// }, {
-//   timezone: "Asia/Kolkata" // Mumbai timezone
-// });
-startScrapingAndSaving();
+cron.schedule(
+  "0 12 * * *",
+  () => {
+    startScrapingAndSaving();
+  },
+  {
+    timezone: "Asia/Kolkata", // Mumbai timezone
+  }
+);
+// startScrapingAndSaving();
 
 // Listen To Server
 const PORT = process.env.PORT || 3000;
